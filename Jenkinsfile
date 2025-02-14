@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "rensiina/flask-CICD:latest"
-        CONTAINER_NAME = "flask-CICD"
+        IMAGE_NAME = "rensiina/flask-cicd:latest"
+        CONTAINER_NAME = "flask-cicd"
         GIT_REPO = "https://github.com/ReN-SiiNa/Assignmnet2.git"
         GIT_CREDENTIALS_ID = "github"
         DOCKER_CREDENTIALS_ID = "docker"
@@ -41,23 +41,23 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]) {
-                        sh "docker tag ${IMAGE_NAME} rensiina/flask-CICD:latest"
-                        sh "docker push rensiina/flask-CICD:latest"
+                        sh "docker tag ${IMAGE_NAME} rensiina/flask-cicd:latest"
+                        sh "docker push rensiina/flask-cicd:latest"
                     }
                 }
             }
         }
 
-        stage('Stop & Remove Existing Container') {
-            steps {
-                script {
-                    sh """
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
-                    """
-                }
-            }
-        }
+        // stage('Stop & Remove Existing Container') {
+        //     steps {
+        //         script {
+        //             sh """
+        //             docker stop ${CONTAINER_NAME} || true
+        //             docker rm ${CONTAINER_NAME} || true
+        //             """
+        //         }
+        //     }
+        // }
 
         stage('Deploy Application') {
             steps {
